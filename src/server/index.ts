@@ -14,9 +14,13 @@ app.get("/things", (req, res) => {
 
 app.get("/things/:idThing", (req, res) => {
   const { idThing } = req.params;
-  const thingPosition = knownThings.find((thing) => thing.id === idThing);
-  console.log(thingPosition);
-  res.status(200).json(thingPosition);
+  const knownThing = knownThings.find((thing) => thing.id === idThing);
+  if (knownThing === undefined) {
+    res.status(404).json({ message: "Thing not found" });
+    return;
+  }
+
+  res.status(200).json(knownThing);
 });
 
 app.use((req, res) => {
