@@ -1,5 +1,5 @@
 export interface KnownThingsDataStructure extends KnownThingsStructure {
-  id: number;
+  id: string;
 }
 
 export interface KnownThingsStructure {
