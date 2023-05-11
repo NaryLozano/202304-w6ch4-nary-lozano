@@ -23,6 +23,14 @@ app.get("/things/:idThing", (req, res) => {
   res.status(200).json(knownThing);
 });
 
+app.delete("/things/:idThing", (req, res) => {
+  const { idThing } = req.params;
+  const thingToDelete = knownThings.findIndex((thing) => thing.id === idThing);
+
+  knownThings.splice(thingToDelete, 1);
+  res.status(200).json({ message: "thing deleted" });
+});
+
 app.use((req, res) => {
   res.status(404).json({ message: "End point not found" });
 });
