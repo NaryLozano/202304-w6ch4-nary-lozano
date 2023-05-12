@@ -1,6 +1,9 @@
 import express from "express";
+import { type Request, type Response } from "express";
+import crypto from "crypto";
 import morgan from "morgan";
 import knownThings from "../data/knownThings.js";
+import { type KnownThingsStructure } from "../types";
 
 const app = express();
 
@@ -35,6 +38,22 @@ app.delete("/things/:idThing", (req, res) => {
 
   res.status(200).json({ message: "thing deleted" });
 });
+
+app.post(
+  "/things",
+  (
+    req: Request<
+      Record<string, unknown>,
+      Record<string, unknown>,
+      KnownThingsStructure
+    >,
+    res: Response
+  ) => {
+    const newKnownThing = { id: crypto.randomUUID(), ...req.body };
+    knownThings.push(newKnownThing);
+    res.status(201).json(newKnownThing);
+  }
+);
 
 app.use((req, res) => {
   res.status(404).json({ message: "End point not found" });
